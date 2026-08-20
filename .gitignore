@@ -1,0 +1,25 @@
+# Python Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python Cache & Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# macOS files
+.DS_Store
+
+# Environment & Secret files
+.env
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

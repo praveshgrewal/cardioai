@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioAI | Heart Disease Risk Prediction Engine</title>
+    <meta name="description" content="AI-powered heart disease risk assessment platform utilizing advanced machine learning algorithms to predict cardiovascular risk from patient clinical metrics.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="glow-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Header Navbar -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="brand">
+                <div class="brand-icon">🫀</div>
+                <div class="brand-text">
+                    <span class="brand-title">Cardio<span class="highlight">AI</span></span>
+                    <span class="brand-subtitle">Clinical Risk Intelligence</span>
+                </div>
+            </div>
+            <div class="nav-pills">
+                <span class="model-badge">⚡ Model: <strong>{{ model_name }}</strong></span>
+                <span class="status-badge"><span class="pulse-dot"></span> Ready for Inference</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-wrapper container">
+        
+        <!-- Hero Section -->
+        <section class="hero-section text-center">
+            <h1 class="hero-title">Cardiovascular Risk Assessment Engine</h1>
+            <p class="hero-desc">Enter patient clinical metrics, lipid markers, and lifestyle parameters to compute instantaneous AI risk predictions with actionable health recommendations.</p>
+        </section>
+
+        <div class="grid-layout">
+            
+            <!-- Left Side: Interactive Input Form -->
+            <section class="card form-card">
+                <div class="card-header">
+                    <h2><span class="icon">📋</span> Patient Diagnostic Profile</h2>
+                    <p class="card-subtitle">Fill in patient measurements below</p>
+                </div>
+
+                <form id="predictionForm" class="prediction-form">
+                    
+                    <!-- Section 1: Demographics & Core Info -->
+                    <div class="form-section">
+                        <h3 class="section-title"><span class="step-num">1</span> Demographics & Vitals</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="age">Age (years)</label>
+                                <input type="number" id="age" name="age" min="18" max="100" value="52" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="sex">Biological Sex</label>
+                                <select id="sex" name="sex" required>
+                                    <option value="Male" selected>Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="bmi">BMI (kg/m²)</label>
+                                <input type="number" id="bmi" name="bmi" step="0.1" min="10" max="60" value="26.4" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="resting_heart_rate">Resting HR (bpm)</label>
+                                <input type="number" id="resting_heart_rate" name="resting_heart_rate" min="40" max="150" value="75" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Blood Pressure & Cardiac Symptoms -->
+                    <div class="form-section">
+                        <h3 class="section-title"><span class="step-num">2</span> Blood Pressure & Cardiac Symptoms</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="resting_bp_systolic">Systolic BP (mmHg)</label>
+                                <input type="number" id="resting_bp_systolic" name="resting_bp_systolic" min="80" max="240" value="130" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="resting_bp_diastolic">Diastolic BP (mmHg)</label>
+                                <input type="number" id="resting_bp_diastolic" name="resting_bp_diastolic" min="50" max="140" value="85" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="max_heart_rate_achieved">Max HR Achieved (bpm)</label>
+                                <input type="number" id="max_heart_rate_achieved" name="max_heart_rate_achieved" min="60" max="230" value="155" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="st_depression">ST Depression</label>
+                                <input type="number" id="st_depression" name="st_depression" step="0.1" min="0.0" max="6.0" value="1.2" required>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="chest_pain_type">Chest Pain Type</label>
+                                <select id="chest_pain_type" name="chest_pain_type" required>
+                                    <option value="Asymptomatic" selected>Asymptomatic (No Chest Pain)</option>
+                                    <option value="Atypical Angina">Atypical Angina</option>
+                                    <option value="Non-Anginal Pain">Non-Anginal Pain</option>
+                                    <option value="Typical Angina">Typical Angina</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group full-width checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="exercise_induced_angina" name="exercise_induced_angina">
+                                    <span>Exercise Induced Angina Present</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Lipid Profile & Metabolic Biomarkers -->
+                    <div class="form-section">
+                        <h3 class="section-title"><span class="step-num">3</span> Lipid Profile & Blood Markers</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="cholesterol_total">Total Cholesterol (mg/dL)</label>
+                                <input type="number" id="cholesterol_total" name="cholesterol_total" min="100" max="500" value="215" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="hdl">HDL Cholesterol (mg/dL)</label>
+                                <input type="number" id="hdl" name="hdl" min="20" max="120" value="48" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="ldl">LDL Cholesterol (mg/dL)</label>
+                                <input type="number" id="ldl" name="ldl" min="30" max="300" value="135" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="triglycerides">Triglycerides (mg/dL)</label>
+                                <input type="number" id="triglycerides" name="triglycerides" min="30" max="500" value="160" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="fasting_blood_sugar">Fasting Blood Sugar (mg/dL)</label>
+                                <input type="number" id="fasting_blood_sugar" name="fasting_blood_sugar" min="60" max="300" value="110" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="hba1c">HbA1c (%)</label>
+                                <input type="number" id="hba1c" name="hba1c" step="0.1" min="3.5" max="15.0" value="5.8" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Lifestyle & Risk Factors -->
+                    <div class="form-section">
+                        <h3 class="section-title"><span class="step-num">4</span> Lifestyle & Behavioral Markers</h3>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="smoker_status">Smoker Status</label>
+                                <select id="smoker_status" name="smoker_status" required>
+                                    <option value="Never">Never Smoked</option>
+                                    <option value="Former">Former Smoker</option>
+                                    <option value="Current" selected>Current Smoker</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="exercise_minutes_per_week">Weekly Exercise (mins)</label>
+                                <input type="number" id="exercise_minutes_per_week" name="exercise_minutes_per_week" min="0" max="1000" value="60" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="stress_score">Stress Score (0-100)</label>
+                                <input type="number" id="stress_score" name="stress_score" min="0" max="100" value="65" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="daily_steps">Daily Steps</label>
+                                <input type="number" id="daily_steps" name="daily_steps" min="0" max="30000" value="4500" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="alcohol_units_per_week">Alcohol Units/Week</label>
+                                <input type="number" id="alcohol_units_per_week" name="alcohol_units_per_week" step="0.1" min="0" max="50" value="5.0" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="sleep_hours">Sleep (hours/night)</label>
+                                <input type="number" id="sleep_hours" name="sleep_hours" step="0.1" min="2" max="14" value="6.0" required>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="diet_quality_score">Diet Quality Score (0-100)</label>
+                                <input type="number" id="diet_quality_score" name="diet_quality_score" step="0.1" min="0" max="100" value="50.0" required>
+                            </div>
+
+                            <div class="input-group full-width checkbox-grid">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="family_history" name="family_history" checked>
+                                    <span>Family History of Heart Disease</span>
+                                </label>
+
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="wearable_owner" name="wearable_owner" checked>
+                                    <span>Uses Smart Wearable / Fitness Tracker</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <span class="btn-text">Analyze Heart Disease Risk</span>
+                            <span class="btn-loader spinner hidden"></span>
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+
+            <!-- Right Side: Risk Assessment Output Dashboard -->
+            <section class="card result-card">
+                <div class="card-header">
+                    <h2><span class="icon">📊</span> Predictive Risk Intelligence</h2>
+                    <p class="card-subtitle">AI Model Output & Clinical Guidance</p>
+                </div>
+
+                <!-- Initial Placeholder State -->
+                <div id="placeholderState" class="result-state active">
+                    <div class="placeholder-content">
+                        <div class="heart-pulse-icon">🫀</div>
+                        <h3>Awaiting Patient Assessment</h3>
+                        <p>Adjust parameters on the left and click "Analyze Heart Disease Risk" to run ML prediction inference.</p>
+                    </div>
+                </div>
+
+                <!-- Active Result Output -->
+                <div id="resultState" class="result-state hidden">
+                    
+                    <!-- Gauge Meter -->
+                    <div class="gauge-container">
+                        <svg class="gauge-svg" viewBox="0 0 200 120">
+                            <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="18" stroke-linecap="round"/>
+                            <path id="gaugeFill" class="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#ef4444" stroke-width="18" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round"/>
+                        </svg>
+                        <div class="gauge-value">
+                            <span id="riskPercentage" class="percentage-text">0.0%</span>
+                            <span class="percentage-label">Probability Score</span>
+                        </div>
+                    </div>
+
+                    <!-- Risk Level Badge -->
+                    <div class="risk-status-box text-center">
+                        <div id="riskLevelBadge" class="badge badge-lg">Evaluating...</div>
+                        <p id="riskSummaryText" class="risk-summary-text"></p>
+                    </div>
+
+                    <!-- Clinical Recommendations -->
+                    <div class="recommendations-container">
+                        <h4 class="rec-title">🎯 Tailored Clinical Interventions</h4>
+                        <div id="recommendationsList" class="rec-list">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Model Benchmark Footer -->
+                <div class="model-info-box">
+                    <div class="info-row">
+                        <span>Algorithm:</span>
+                        <strong id="modelNameText">{{ model_name }}</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Model Pickle:</span>
+                        <span class="pickle-tag">model.pkl (Loaded)</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>CardioAI Clinical Decision Support Engine &copy; 2026. Built with Python, Scikit-Learn, and Flask.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
